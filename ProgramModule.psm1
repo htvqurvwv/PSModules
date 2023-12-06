@@ -1,14 +1,22 @@
 
-function Check-ProgramInstalled {
+function Get-ProgramInstalled {
     param (
         [Parameter(Mandatory=$true)]
-        [string]$programName
+        [string]$ProgramName
     )
-    $program = Get-Package | Where-Object { $_.Name -eq $programName }
-    return $null -ne $program
+    try {
+        return $(Get-Package -Name $ProgramName -ErrorAction Stop).Count -gt 0
+    } catch {
+        if ($_.Exception.Message -like "No package found for '*'.") {
+            return $false
+        } else {
+            Write-Host "An error occurred function ""Get-ProgramInstalled"", exiting with exception message ""$($_.Exception.Message)"""
+            exit 1
+        }
+    }
 }
 
-function Check-ChocolateyAvailable {
+function Get-ChocolateyAvailable {
     param ()
     try {
         choco --noop | Out-Null
@@ -18,21 +26,12 @@ function Check-ChocolateyAvailable {
     }
 }
 
-function ExitChocolateyIfUnavailable {
-    param ()
-    try {
-        choco --noop | Out-Null
-    } catch {
-        Write-Host "Chocolatey unavailable"
-    }
-}
-
 function Ensure-ChocolateyInstalled {
     param ()
-    if ($(Check-ChocolateyAvailable) -eq $false) {
+    if ($(Get-ChocolateyAvailable) -eq $false) {
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     }
-    if ($(Check-ChocolateyAvailable) -eq $false) {
+    if ($(Get-ChocolateyAvailable) -eq $false) {
         Write-Host "Chocolatey not available after running installation. Exiting."
         exit 1
     }
@@ -61,19 +60,20 @@ function Ensure-AllowGlobalConfirmationEnabled {
     }
 }
 
-function Update-Chocolatey {
-    param ()
-    ExitChocolateyIfUnavailable
-    choco upgrade chocolatey --no-progress --nocolor --limit-output
-}
-
-function Prepare-Chocolatey {
+#
+function PrepareChocolatey {
     param ()
     Ensure-ChocolateyInstalled
     Ensure-AllowGlobalConfirmationEnabled
-    Update-Chocolatey
+    try {
+        choco upgrade chocolatey --no-progress --nocolor --limit-output
+    } catch {
+        Write-Host "An error occurred function ""PrepareChocolatey"", exiting with exception message ""$($_.Exception.Message)"""
+    }
 }
 
+# This function has no validation and does nothing to confirm it actually installed.
+# It is simply a best-effort function, relying on usage of this function and inputs being tested
 function Install-ChocolateyProgram {
     param (
         [Parameter(Mandatory=$true)]
