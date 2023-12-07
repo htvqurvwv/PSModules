@@ -32,7 +32,7 @@ function Ensure-ChocolateyInstalled {
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     }
     if ($(Get-ChocolateyAvailable) -eq $false) {
-        Write-Host "Chocolatey not available after running installation. Exiting."
+        Write-Host "Chocolatey not available after running installer. Exiting."
         exit 1
     }
 }

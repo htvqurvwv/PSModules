@@ -11,3 +11,17 @@ function Get-NinjaPropertyBool {
         exit 1
     }
 }
+
+function DocumentServiceStates {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$ServiceName,
+        [Parameter(Mandatory=$true)]
+        [string]$RunningPropertyName,
+        [Parameter(Mandatory=$true)]
+        [string]$ExistsPropertyName
+    )
+    $serviceExists = Get-ServiceExists -ServiceName $ServiceName
+    Ninja-Property-Set $ExistsPropertyName $serviceExists
+    Ninja-Property-Set $RunningPropertyName $(Get-ServiceIsRunning -ServiceName $ServiceName)
+}
