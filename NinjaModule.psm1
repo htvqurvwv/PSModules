@@ -21,7 +21,6 @@ function DocumentServiceStates {
         [Parameter(Mandatory=$true)]
         [string]$ExistsPropertyName
     )
-    $serviceExists = Get-ServiceExists -ServiceName $ServiceName
-    Ninja-Property-Set $ExistsPropertyName $serviceExists
+    Ninja-Property-Set $ExistsPropertyName $(Get-ServiceExists -ServiceName $ServiceName)
     Ninja-Property-Set $RunningPropertyName $(Get-ServiceIsRunning -ServiceName $ServiceName)
 }
