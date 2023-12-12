@@ -13,6 +13,8 @@ function Get-RegistryValue {
     } catch {
         if ($_.Exception.Message -like "Property $Name does not exist at path *") {
             return $null
+        } elseif ($_.Exception.Message -like "Cannot find path '*' because it does not exist.") {
+            return $null
         } else {
             Write-Host "An error occurred function ""Get-RegistryValue"", exiting with exception message ""$($_.Exception.Message)"""
             exit 1
