@@ -24,7 +24,7 @@ function ValidateLocalAccount {
     if ($isValid -eq $false) {
         $user = [System.DirectoryServices.AccountManagement.UserPrincipal]::FindByIdentity($pc, $Username)
         if ($null -eq $user) {
-            Write-Host `Account $($Username) does not exist.`
+            Write-Host "Account $($Username) does not exist."
             return $null
         }
     }
