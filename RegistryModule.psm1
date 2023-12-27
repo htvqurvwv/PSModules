@@ -16,7 +16,7 @@ function Get-RegistryValue {
         } elseif ($_.Exception.Message -like "Cannot find path '*' because it does not exist.") {
             return $null
         } else {
-            Write-Host "An error occurred function ""Get-RegistryValue"", exiting with exception message ""$($_.Exception.Message)"""
+            Write-Host "An error occurred in function ""Get-RegistryValue"", exiting with exception message ""$($_.Exception.Message)"""
             exit 1
         }
     }

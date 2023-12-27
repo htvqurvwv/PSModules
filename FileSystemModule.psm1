@@ -10,7 +10,7 @@ function EnsurePathExists {
             New-Item -Path $Path -ItemType Directory -ErrorAction Stop -Force | Out-Null
         }
     } catch {
-        Write-Host "An error occurred function ""EnsurePathExists"", exiting with exception message ""$($_.Exception.Message)"""
+        Write-Host "An error occurred in function ""EnsurePathExists"", exiting with exception message ""$($_.Exception.Message)"""
         exit 1
     }
 }

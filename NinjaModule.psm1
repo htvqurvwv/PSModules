@@ -7,7 +7,7 @@ function Get-NinjaPropertyBool {
     try {
         return $(Ninja-Property-Get $Field) -eq "1"
     } catch {
-        Write-Host "An error occurred function ""Get-NinjaPropertyBool"", exiting with exception message ""$($_.Exception.Message)"""
+        Write-Host "An error occurred in function ""Get-NinjaPropertyBool"", exiting with exception message ""$($_.Exception.Message)"""
         exit 1
     }
 }
@@ -28,7 +28,7 @@ function Get-NinjaPropertyString {
             return $null
         }
     } catch {
-        Write-Host "An error occurred function ""Get-NinjaPropertyString"", exiting with exception message ""$($_.Exception.Message)"""
+        Write-Host "An error occurred in function ""Get-NinjaPropertyString"", exiting with exception message ""$($_.Exception.Message)"""
         exit 1
     }
 }

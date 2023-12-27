@@ -10,7 +10,7 @@ function Get-ProgramInstalled {
         if ($_.Exception.Message -like "No package found for '*'.") {
             return $false
         } else {
-            Write-Host "An error occurred function ""Get-ProgramInstalled"", exiting with exception message ""$($_.Exception.Message)"""
+            Write-Host "An error occurred in function ""Get-ProgramInstalled"", exiting with exception message ""$($_.Exception.Message)"""
             exit 1
         }
     }
@@ -68,7 +68,7 @@ function PrepareChocolatey {
     try {
         choco upgrade chocolatey --no-progress --nocolor --limit-output
     } catch {
-        Write-Host "An error occurred function ""PrepareChocolatey"", exiting with exception message ""$($_.Exception.Message)"""
+        Write-Host "An error occurred in function ""PrepareChocolatey"", exiting with exception message ""$($_.Exception.Message)"""
     }
 }
 

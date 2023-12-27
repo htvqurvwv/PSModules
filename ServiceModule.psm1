@@ -11,7 +11,7 @@ function Get-Service_ {
         if ($_.Exception.Message -like "Cannot find any service with service name '*'.") {
             return $null
         } else {
-            Write-Host "An error occurred function ""Get-Service_"", exiting with exception message ""$($_.Exception.Message)"""
+            Write-Host "An error occurred in function ""Get-Service_"", exiting with exception message ""$($_.Exception.Message)"""
             exit 1
         }
     }
