@@ -1,7 +1,7 @@
 function ValidateLocalAccount {
     param(
-        [string]$username,
-        [string]$password
+        [string]$Username,
+        [string]$Password
     )
 
     $isValid = $null
@@ -16,15 +16,15 @@ function ValidateLocalAccount {
         }
         $pc = New-Object System.DirectoryServices.AccountManagement.PrincipalContext($contextType, $env:COMPUTERNAME)
         
-        $isValid = $pc.ValidateCredentials($username, $password)
+        $isValid = $pc.ValidateCredentials($Username, $Password)
     } catch {
         Write-Host "An error occurred in function ""ValidateLocalAccount"", exiting with exception message ""$($_.Exception.Message)"""
         exit(1)
     }
     if ($isValid -eq $false) {
-        $user = [System.DirectoryServices.AccountManagement.UserPrincipal]::FindByIdentity($pc, $username)
+        $user = [System.DirectoryServices.AccountManagement.UserPrincipal]::FindByIdentity($pc, $Username)
         if ($null -eq $user) {
-            Write-Host `Account $($username) does not exist.`
+            Write-Host `Account $($Username) does not exist.`
             return $null
         }
     }
