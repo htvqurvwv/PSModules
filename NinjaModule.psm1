@@ -33,6 +33,28 @@ function Get-NinjaPropertyString {
     }
 }
 
+#returns array or $null
+#Ninja usage implies string array as there are no other custom field types which return an array
+#If Ninja-Property-Get is available but the field doesn't exist, it outputs "Unable to find the specified field." without a newline character,
+#there is currently nothing I can do to prevent this without affecting the output
+function Get-NinjaPropertyStringArray {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Field
+    )
+    try {
+        $value = Ninja-Property-Get $Field
+        if ($value -is [System.Array] -and $value -ne "") {
+            return $value
+        } else {
+            return $null
+        }
+    } catch {
+        Write-Host "An error occurred in function ""Get-NinjaPropertyStringArray"", exiting with exception message ""$($_.Exception.Message)"""
+        exit 1
+    }
+}
+
 #returns string or exits if string is empty or not found.
 #If Ninja-Property-Get is available but the field doesn't exist, it outputs "Unable to find the specified field." without a newline character,
 #there is currently nothing I can do to prevent this without affecting the output
