@@ -44,8 +44,10 @@ function Get-NinjaPropertyStringArray {
     )
     try {
         $value = Ninja-Property-Get $Field
-        if ($value -is [System.Array] -and $value -ne "") {
+        if ($value -is [System.Array]) {
             return $value
+        } elseif ($value -is [string] -and $value -ne "") {
+            return @($value)
         } else {
             return $null
         }
