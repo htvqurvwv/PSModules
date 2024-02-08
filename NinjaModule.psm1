@@ -37,6 +37,7 @@ function Get-NinjaPropertyString {
 #Ninja usage implies string array as there are no other custom field types which return an array
 #If Ninja-Property-Get is available but the field doesn't exist, it outputs "Unable to find the specified field." without a newline character,
 #there is currently nothing I can do to prevent this without affecting the output
+#TODO: Consider running trim on each array element.
 function Get-NinjaPropertyStringArray {
     param(
         [Parameter(Mandatory=$true)]
@@ -76,17 +77,4 @@ function Get-NinjaPropertyStringExitIfMissingOrEmpty {
         Write-Host "An error occurred in function ""Get-NinjaPropertyString"", exiting with exception message ""$($_.Exception.Message)"""
     }
     exit 1
-}
-
-function DocumentServiceStates {
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$ServiceName,
-        [Parameter(Mandatory=$true)]
-        [string]$RunningPropertyName,
-        [Parameter(Mandatory=$true)]
-        [string]$ExistsPropertyName
-    )
-    Ninja-Property-Set $ExistsPropertyName $(Get-ServiceExists -ServiceName $ServiceName)
-    Ninja-Property-Set $RunningPropertyName $(Get-ServiceIsRunning -ServiceName $ServiceName)
 }
