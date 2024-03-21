@@ -15,10 +15,7 @@ function ValidateLocalAccount {
             [System.DirectoryServices.AccountManagement.ContextType]::Machine
         }
         $pc = New-Object System.DirectoryServices.AccountManagement.PrincipalContext($contextType, $env:COMPUTERNAME)
-        
         $user = [System.DirectoryServices.AccountManagement.UserPrincipal]::FindByIdentity($pc, $Username)
-        Write-Host """$user"""
-        Write-Host "$($null -eq $user)"
         if ($null -eq $user) {
             $isValid = $false
         } else {
