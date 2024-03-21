@@ -10,10 +10,8 @@ function ValidateLocalAccount {
         Add-Type -AssemblyName System.DirectoryServices.AccountManagement
         $domain_role = Get-WmiObject -Class Win32_ComputerSystem | Select-Object -ExpandProperty DomainRole
         $contextType = if ($domain_role -eq 5 -or $domain_role -eq 4) {
-            Write-Host "Domain"
             [System.DirectoryServices.AccountManagement.ContextType]::Domain
         } else {
-            Write-Host "Machine"
             [System.DirectoryServices.AccountManagement.ContextType]::Machine
         }
         $pc = New-Object System.DirectoryServices.AccountManagement.PrincipalContext($contextType, $env:COMPUTERNAME)
