@@ -48,8 +48,12 @@ function Get-NinjaPropertyStringArray {
         if ($value -is [System.Array]) {
             return $value
         } elseif ($value -is [string] -and $value -ne "") {
-            return @($value)
+            $t = @($value)
+            Write-Host """$t"""
+            Write-Host $t.GetType()
+            return $t
         } else {
+            Write-Host "returning empty array"
             return @()
         }
     } catch {
